@@ -30,7 +30,7 @@ class TestCase(unittest.TestCase):
 
 	def test_uniform(self):
 		hashes = []
-		for i in range(1000):
+		for i in range(10000):
 			message = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(random.randrange(10000)))
 			hash_res = sha_mod.result(message)
 			d[str(hash_res[0])] += 1
