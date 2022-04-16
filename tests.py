@@ -49,7 +49,7 @@ class TestCase(unittest.TestCase):
 		len_1 = len(sha.sha1(message1))
 		hash_2 = sha.sha1(message2)
 		len_2 = len(sha.sha1(message2))
-		print("Output size test:  hash_1 = %s,\n\t\t\t\t\thash_2 = %s" % (hash_1, hash_2))
+		print("Output size test:  hash_1 = %s,\n\thash_2 = %s" % (hash_1, hash_2))
 		self.assertEqual(len_1, len_2)
 
 if __name__ == "__main__":
