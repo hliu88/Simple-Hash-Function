@@ -5,7 +5,6 @@ import string
 import hashlib
 import sys
 import unittest
-from matplotlib import pyplot as plt
 
 # str = "hello"
 # result = hashlib.sha1(str.encode())
