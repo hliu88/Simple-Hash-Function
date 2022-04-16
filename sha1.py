@@ -23,24 +23,12 @@ def sha1(data):
 
     for c in chunks(pBits, 512): 
         words = chunks(c, 32)
-        for i in range(5):
-            #LSFR & shifting
-            for i in range(len(words)):
-                #LSFR
-                x = words[i][1:]
-                y = words[i][0] != words[i][2]
-                words[i] = x + str(y*1)
-                #shifting
-                x = words[i][0]
-                y = words[i][1:]
-                words[i] = y + x
-
-
         w = [0] *   80
         for n in range(0, 16):
             w[n] = int(words[n], 2)
         for i in range(16, 80):
             w[i] = leftrotate((w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16]), 1)  
+
         a = h0
         b = h1
         c = h2
@@ -67,6 +55,7 @@ def sha1(data):
             c = leftrotate(b, 30)
             b = a
             a = temp
+
         h0 = h0 + a & 0xffffffff
         h1 = h1 + b & 0xffffffff
         h2 = h2 + c & 0xffffffff
@@ -75,45 +64,4 @@ def sha1(data):
 
     return '%08x%08x%08x%08x%08x' % (h0, h1, h2, h3, h4)
 
-def hex_to_bin(data):
-    b = "{0:08b}".format(int(data, 16))
-    return b.zfill(160)
-
-def shift(hash, n):
-    x = hash[:n]
-    y = hash[n+1:]
-    return x + y
-
-def hash_shift(split_hash, n):
-    x = sha1(split_hash)
-    x1 = shift(x, n)
-    return hex_to_bin(x1)
-
-def LFSR(hash):
-    x = hash[1:]
-    y = hash[0] != hash[2]
-    return x + str(y*1)
-
-def split(data):
-    data = hex_to_bin(sha1(data)) 
-    l= data[:80]
-    r = data[80:]
-    l1 = hash_shift(l, 5)
-    r1 = hash_shift(r, 10)
-    l11 = l1[80:]
-    l12 = l1[:80]
-    r11 = r1[80:]
-    r12 = r1[:80]
-    x1 = int(l11, 2) ^ int(l12, 2)
-    x1 = '{:x}'.format(x1).zfill(20)
-    x2 = int(r11, 2) & int(r12, 2)
-    x2 = '{:x}'.format(x2).zfill(20)
-    return (LFSR(x1 + x2))
-
-def result(text):
-    return split(text)
-
-
-# print(result('hello'))
-
-
+# print(sha1("hello"))
